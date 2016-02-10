@@ -1,0 +1,4 @@
+name "workspace-d-installer"
+description "A minimal D application."
+copyright "Copyright © 2016, webfreak"
+authors "webfreak"
