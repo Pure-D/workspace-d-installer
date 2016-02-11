@@ -52,14 +52,14 @@ bool dubInstall(string folder, string git, string[] output,
 
 int main(string[] args)
 {
+	if (!exists("bin"))
+		mkdir("bin");
 	if (isFile("bin"))
 	{
 		writeln("Could not initialize, bin is a file!");
 		writeln("Please delete bin!");
 		return 1;
 	}
-	if (!exists("bin"))
-		mkdir("bin");
 
 	tmp = buildNormalizedPath(tempDir, "workspaced-install-" ~ Clock.currStdTime().to!string);
 	mkdirRecurse(tmp);
