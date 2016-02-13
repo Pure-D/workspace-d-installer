@@ -50,6 +50,41 @@ bool dubInstall(string folder, string git, string[] output,
 	return true;
 }
 
+bool dubInstallDCD(string folder, string git, string[] output,
+	string[][] compilation = [["dub", "-q", "build", "--build=release"]])
+{
+	writeln("Cloning " ~ folder ~ " into ", tmp);
+	if (proc(["git", "clone", "-q", git, folder], tmp) != 0)
+	{
+		writeln("Error while cloning " ~ folder ~ ".");
+		return false;
+	}
+	string cwd = buildNormalizedPath(tmp, folder);
+	string tag = "v0.7.5";
+	if (tag.canFind(" "))
+	{
+		writeln("Invalid tag in git repository.");
+		return false;
+	}
+	writeln("Checking out ", tag);
+	if (proc(["git", "checkout", "-q", tag], cwd) != 0)
+	{
+		writeln("Error while checking out " ~ folder ~ ".");
+		return false;
+	}
+	writeln("Compiling...");
+	foreach (args; compilation)
+		if (proc(args, cwd) != 0)
+		{
+			writeln("Error while compiling " ~ folder ~ ".");
+			return false;
+		}
+	foreach (bin; output)
+		copy(buildNormalizedPath(cwd, bin), buildNormalizedPath("bin", bin.baseName));
+	writeln("Successfully installed " ~ folder ~ "!");
+	return true;
+}
+
 int main(string[] args)
 {
 	if (!exists("bin"))
@@ -132,7 +167,7 @@ int main(string[] args)
 		if (!dubInstall("workspace-d",
 				"https://github.com/Pure-D/workspace-d.git", ["./workspace-d"]))
 			return 1;
-		if (dcd && !dubInstall("DCD", "https://github.com/Hackerpilot/DCD.git",
+		if (dcd && !dubInstallDCD("DCD", "https://github.com/Hackerpilot/DCD.git",
 				["./bin/dcd-client", "./bin/dcd-server"], [["git", "submodule",
 				"update", "-q", "--init", "--recursive"], ["make", "-j2"]]))
 			return 1;
