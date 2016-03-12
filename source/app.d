@@ -148,18 +148,18 @@ int main(string[] args)
 	version (Windows)
 	{
 		if (!dubInstall("workspace-d",
-				"https://github.com/Pure-D/workspace-d.git", [".\\workspace-d"]))
+				"https://github.com/Pure-D/workspace-d.git", [".\\workspace-d.exe"]))
 			return 1;
 		if (dcd && !dubInstall("DCD", "https://github.com/Hackerpilot/DCD.git",
-				[".\\bin\\dcd-client", ".\\bin\\dcd-server"], [["git",
+				[".\\bin\\dcd-client.exe", ".\\bin\\dcd-server.exe"], [["git",
 				"submodule", "update", "-q", "--init", "--recursive"], ["cmd", "/c",
 				"build.bat"]]))
 			return 1;
 		if (dscanner && !dubInstall("Dscanner",
-				"https://github.com/Hackerpilot/Dscanner.git", [".\\dscanner"]))
+				"https://github.com/Hackerpilot/Dscanner.git", [".\\dscanner.exe"]))
 			return 1;
 		if (dfmt && !dubInstall("dfmt", "https://github.com/Hackerpilot/dfmt.git",
-				[".\\dfmt"]))
+				[".\\dfmt.exe"]))
 			return 1;
 	}
 	else
