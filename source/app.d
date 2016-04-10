@@ -15,7 +15,7 @@ int proc(string[] args, string cwd)
 }
 
 bool dubInstall(string folder, string git, string[] output,
-	string[][] compilation = [["dub", "-q", "build", "--build=release"]])
+	string[][] compilation = [["dub", "upgrade"], ["dub", "build", "--build=release"]])
 {
 	writeln("Cloning " ~ folder ~ " into ", tmp);
 	if (proc(["git", "clone", "-q", git, folder], tmp) != 0)
@@ -51,7 +51,7 @@ bool dubInstall(string folder, string git, string[] output,
 }
 
 bool dubInstallDCD(string folder, string git, string[] output,
-	string[][] compilation = [["dub", "-q", "build", "--build=release"]])
+	string[][] compilation = [["dub", "upgrade"], ["dub", "build", "--build=release"]])
 {
 	writeln("Cloning " ~ folder ~ " into ", tmp);
 	if (proc(["git", "clone", "-q", git, folder], tmp) != 0)
