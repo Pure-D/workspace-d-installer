@@ -46,7 +46,7 @@ bool dubInstall(string folder, string git, string[] output,
 		}
 	foreach (bin; output)
 		copy(buildNormalizedPath(cwd, bin), buildNormalizedPath("bin", bin.baseName));
-	writeln("Successfully installed " ~ folder ~ "!");
+	writeln("Successfully compiled " ~ folder ~ "!");
 	return true;
 }
 
@@ -81,7 +81,7 @@ bool dubInstallDCD(string folder, string git, string[] output,
 		}
 	foreach (bin; output)
 		copy(buildNormalizedPath(cwd, bin), buildNormalizedPath("bin", bin.baseName));
-	writeln("Successfully installed " ~ folder ~ "!");
+	writeln("Successfully compiled " ~ folder ~ "!");
 	return true;
 }
 
