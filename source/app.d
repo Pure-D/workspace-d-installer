@@ -11,6 +11,7 @@ string tmp;
 
 int proc(string[] args, string cwd)
 {
+	writeln("$ ", args.join(" "));
 	return spawnProcess(args, stdin, stdout, stderr, null, Config.none, cwd).wait != 0;
 }
 
@@ -116,9 +117,9 @@ int main(string[] args)
 				"https://github.com/Pure-D/workspace-d.git", [".\\workspace-d.exe"]))
 			return 1;
 		if (dcd && !dubInstall("DCD", "https://github.com/Hackerpilot/DCD.git",
-				[".\\bin\\dcd-client.exe", ".\\bin\\dcd-server.exe"], [["git",
-				"submodule", "update", "-q", "--init", "--recursive"], ["cmd", "/c",
-				"build.bat"]]))
+				[".\\dcd-client.exe", ".\\dcd-server.exe"], [["dub",
+				"upgrade"], ["dub", "build", "--build=release",
+				"--config=client"], ["dub", "build", "--build=release", "--config=server"]]))
 			return 1;
 		if (dscanner && !dubInstall("Dscanner",
 				"https://github.com/Hackerpilot/Dscanner.git", [".\\dscanner.exe"]))
@@ -133,8 +134,9 @@ int main(string[] args)
 				"https://github.com/Pure-D/workspace-d.git", ["./workspace-d"]))
 			return 1;
 		if (dcd && !dubInstall("DCD", "https://github.com/Hackerpilot/DCD.git",
-				["./bin/dcd-client", "./bin/dcd-server"], [["git", "submodule",
-				"update", "-q", "--init", "--recursive"], ["make", "-j2"]]))
+				["./dcd-client", "./dcd-server"], [["dub", "upgrade"], ["dub",
+				"build", "--build=release", "--config=client"], ["dub",
+				"build", "--build=release", "--config=server"]]))
 			return 1;
 		if (dscanner && !dubInstall("Dscanner",
 				"https://github.com/Hackerpilot/Dscanner.git", ["./dscanner"]))
