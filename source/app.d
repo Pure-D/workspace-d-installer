@@ -16,7 +16,7 @@ int proc(string[] args, string cwd)
 }
 
 bool dubInstall(string folder, string git, string[] output,
-	string[][] compilation = [["dub", "upgrade"], ["dub", "build", "--build=release"]])
+		string[][] compilation = [["dub", "upgrade"], ["dub", "build", "--build=release"]])
 {
 	writeln("Cloning " ~ folder ~ " into ", tmp);
 	if (proc(["git", "clone", "-q", git, folder], tmp) != 0)
@@ -26,7 +26,7 @@ bool dubInstall(string folder, string git, string[] output,
 	}
 	string cwd = buildNormalizedPath(tmp, folder);
 	string tag = execute(["git", "describe", "--abbrev=0", "--tags"], null,
-		Config.none, size_t.max, cwd).output.strip();
+			Config.none, size_t.max, cwd).output.strip();
 	if (tag.canFind(" "))
 	{
 		writeln("Invalid tag in git repository.");
@@ -113,19 +113,19 @@ int main(string[] args)
 	}
 	version (Windows)
 	{
-		if (!dubInstall("workspace-d",
-				"https://github.com/Pure-D/workspace-d.git", [".\\workspace-d.exe"]))
+		if (!dubInstall("workspace-d", "https://github.com/Pure-D/workspace-d.git",
+				[".\\workspace-d.exe", ".\\libcurl.dll", ".\\libeay32.dll", "ssleay32.dll"]))
 			return 1;
 		if (dcd && !dubInstall("DCD", "https://github.com/Hackerpilot/DCD.git",
-				[".\\dcd-client.exe", ".\\dcd-server.exe"], [["dub",
-				"upgrade"], ["dub", "build", "--build=release",
-				"--config=client"], ["dub", "build", "--build=release", "--config=server"]]))
+				[".\\dcd-client.exe", ".\\dcd-server.exe"],
+				[["dub", "upgrade"], ["dub", "build", "--build=release", "--config=client"],
+				["dub", "build", "--build=release", "--config=server"]]))
 			return 1;
-		if (dscanner && !dubInstall("Dscanner",
-				"https://github.com/Hackerpilot/Dscanner.git", [".\\dscanner.exe"]))
+		if (dscanner && !dubInstall("Dscanner", "https://github.com/Hackerpilot/Dscanner.git", [".\\dscanner.exe"],
+				[["git", "submodule", "update", "--init", "--recursive"],
+				["cmd", "/c", "build.bat"]]))
 			return 1;
-		if (dfmt && !dubInstall("dfmt", "https://github.com/Hackerpilot/dfmt.git",
-				[".\\dfmt.exe"]))
+		if (dfmt && !dubInstall("dfmt", "https://github.com/Hackerpilot/dfmt.git", [".\\dfmt.exe"]))
 			return 1;
 	}
 	else
@@ -133,16 +133,14 @@ int main(string[] args)
 		if (!dubInstall("workspace-d",
 				"https://github.com/Pure-D/workspace-d.git", ["./workspace-d"]))
 			return 1;
-		if (dcd && !dubInstall("DCD", "https://github.com/Hackerpilot/DCD.git",
-				["./dcd-client", "./dcd-server"], [["dub", "upgrade"], ["dub",
-				"build", "--build=release", "--config=client"], ["dub",
-				"build", "--build=release", "--config=server"]]))
+		if (dcd && !dubInstall("DCD", "https://github.com/Hackerpilot/DCD.git", ["./dcd-client", "./dcd-server"],
+				[["dub", "upgrade"], ["dub", "build", "--build=release", "--config=client"],
+				["dub", "build", "--build=release", "--config=server"]]))
 			return 1;
-		if (dscanner && !dubInstall("Dscanner",
-				"https://github.com/Hackerpilot/Dscanner.git", ["./dscanner"]))
+		if (dscanner && !dubInstall("Dscanner", "https://github.com/Hackerpilot/Dscanner.git", ["./bin/dscanner"],
+				[["git", "submodule", "update", "--init", "--recursive"], ["make"]]))
 			return 1;
-		if (dfmt && !dubInstall("dfmt", "https://github.com/Hackerpilot/dfmt.git",
-				["./dfmt"]))
+		if (dfmt && !dubInstall("dfmt", "https://github.com/Hackerpilot/dfmt.git", ["./dfmt"]))
 			return 1;
 	}
 	writeln();
