@@ -1,8 +1,12 @@
-# workspace-d Installer
+# THIS PROJECT MOVED
+
+It is now part of [workspace-d](https://github.com/Pure-D/workspace-d)
+
+## workspace-d Installer
 
 Runs all dub and git commands for you so you dont have to.
 
-## Usage
+### Usage
 
 Make sure dmd, dub and git are installed. Run `dub`.
 
